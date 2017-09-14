@@ -1,5 +1,8 @@
 import Koa from 'koa'
+import bodyParser from 'koa-bodyparser'
 import { Nuxt, Builder } from 'nuxt'
+import Router from './middlewares/router'
+import Database from './middlewares/database'
 
 const app = new Koa()
 const host = process.env.HOST || '127.0.0.1'
@@ -16,10 +19,14 @@ const nuxt = new Nuxt(config)
 if (config.dev) {
   const builder = new Builder(nuxt)
   builder.build().catch(e => {
-    console.error(e) // eslint-disable-line no-console
+    console.error(e) // eslint-disable-line no-consol
     process.exit(1)
   })
 }
+
+app.use(bodyParser())
+Database(app)
+Router(app)
 
 app.use(ctx => {
   ctx.status = 200 // koa defaults to 404 when it sees that status is unset
@@ -33,6 +40,8 @@ app.use(ctx => {
     })
   })
 })
+
+
 
 app.listen(port, host)
 console.log('Server listening on ' + host + ':' + port) // eslint-disable-line no-console
