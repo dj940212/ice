@@ -3,10 +3,10 @@ import config from '../config'
 import fs from 'fs'
 import { resolve } from 'path'
 
-const models = resolve(__dirname, '../database/Schema')
-fs.readdirSync(models)
-    .filter(file => ~file.search(/^[^\.].*js$/))
-    .forEach(file => require(resolve(models, file)))
+// const models = resolve(__dirname, '../database/Schema')
+// fs.readdirSync(models)
+//     .filter(file => ~file.search(/^[^\.].*js$/))
+//     .forEach(file => require(resolve(models, file)))
 
 export default app => {
     mongoose.set('debug', true)

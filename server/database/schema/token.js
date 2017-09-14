@@ -33,10 +33,15 @@ TokenSchema.statics = {
             name: 'access_token'
         }).exec()
 
+        if (token && token.token) {
+            token.access_token = token.token
+        }
+
         return token
     },
 
     async saveAccessToken(data) {
+        console.log("saveAccessToken")
         let token = await this.findOne({
             name: 'access_token'
         }).exec()
@@ -58,4 +63,4 @@ TokenSchema.statics = {
     }
 }
 
-const Token = mongoose.model('Token', TokenSchema)
+export default mongoose.model('Token', TokenSchema)

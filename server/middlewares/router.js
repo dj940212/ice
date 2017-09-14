@@ -1,6 +1,7 @@
 import Router from 'koa-router'
 import sha1 from 'sha1'
 import config from '../config'
+import {getWechat} from '../wechat'
 
 export default app => {
     const router = new Router()
@@ -8,6 +9,9 @@ export default app => {
     console.log('router')
 
     router.get('/wechat-hear', (ctx, next) => {
+        
+        getWechat()
+
         const token = config.token
         const {
             signature,
