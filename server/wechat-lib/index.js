@@ -57,7 +57,7 @@ export default class Wechat {
 
         data.expires_in = expiresIn
 
-        // await this.saveAccessToken(data)
+        await this.saveAccessToken(data)
 
 
         return data

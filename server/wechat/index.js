@@ -1,10 +1,10 @@
 import mongoose from 'mongoose'
 import config from '../config'
 import Wechat from '../wechat-lib'
-import Token from '../database/schema/token'
+// import Token from '../database/schema/token'
 
 // const Token = mongoose.model('Token')
-console.log(Token.getAccessToken)
+// console.log(Token)
 
 
 const wechatConfig = {

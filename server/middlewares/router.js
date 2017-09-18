@@ -8,9 +8,9 @@ export default app => {
 
     console.log('router')
 
-    router.get('/wechat-hear', (ctx, next) => {
+    router.all('/wechat-hear', (ctx, next) => {
         
-        getWechat()
+        // getWechat()
 
         const token = config.token
         const {

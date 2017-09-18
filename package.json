@@ -18,9 +18,11 @@
     "koa-router": "v7.2.1",
     "mongoose": "^4.11.10",
     "nuxt": "^1.0.0-rc3",
+    "raw-body": "^2.3.2",
     "request": "^2.81.0",
     "sha1": "^1.1.1",
-    "source-map-support": "^0.4.15"
+    "source-map-support": "^0.4.15",
+    "xml2js": "^0.4.19"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",
