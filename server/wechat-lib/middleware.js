@@ -1,8 +1,8 @@
 import sha1 from 'sha1'
-// import getRawBody from 'rawBody'
+import getRawBody from 'raw-body'
 import * as util from './util'
 
-export default function (opts,reply) {
+export default function (opts, reply) {
     return async function wachatMiddle(ctx, next) {
         const token = opts.token
         const {
@@ -15,6 +15,7 @@ export default function (opts,reply) {
         const str = [token, timestamp, nonce].sort().join('')
         const sha = sha1(str)
 
+        // 判断请求方法
         if (ctx.method === 'GET') {
             console.log(sha === signature)
             if (sha === signature) {
@@ -38,13 +39,24 @@ export default function (opts,reply) {
             const content = await util.parseXML(data)
             // const message = util.formatMessage(content.xml)
 
-            ctx.weixin = message
+            console.log(content)
 
-            await reply.call(ctx,[ctx, next])
+            ctx.weixin = {} //message
+
+            await reply.apply(ctx,[ctx, next])
 
             const replyBody = ctx.body
             const msg = ctx.weixin
-            const xml = util.tpl(replyBody, msg)
+            // const xml = util.tpl(replyBody, msg)
+            console.log(replyBody)
+
+            const xml = `<xml>
+                        <ToUserName><![CDATA[toUser]]></ToUserName>
+                        <FromUserName><![CDATA[fromUser]]></FromUserName>
+                        <CreateTime>12345678</CreateTime>
+                        <MsgType><![CDATA[text]]></MsgType>
+                        <Content><![CDATA[你好]]></Content>
+                        </xml>`
 
             ctx.status = 200
             ctx.type = 'application/xml'

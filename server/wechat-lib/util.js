@@ -1,8 +1,8 @@
 import xml2js from 'xml2js'
-import template from './tpl'
+// import template from './tpl'
 import sha1 from 'sha1'
 
-function parseXML (xml) {
+export function parseXML(xml) {
   return new Promise((resolve, reject) => {
     xml2js.parseString(xml, {trim: true}, (err, content) => {
       if (err) reject(err)
