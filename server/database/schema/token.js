@@ -17,7 +17,7 @@ const TokenSchema = new mongoose.Schema({
     }
 })
 
-TokenSchema.pre('save', (next) => {
+TokenSchema.pre('save', function (next) {
     if (this.isNew) {
         this.meta.createdAt = this.meta.updatedAt = Date.now()
     }else {
@@ -63,4 +63,6 @@ TokenSchema.statics = {
     }
 }
 
-export default mongoose.model('Token', TokenSchema)
+const Token = mongoose.model('Token', TokenSchema)
+
+export default Token

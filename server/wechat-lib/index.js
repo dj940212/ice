@@ -21,7 +21,7 @@ export default class Wechat {
 
         try {
             const response = await request(options)
-            console.log('request', response)
+            // console.log('request', response)
             return response
         }catch(error) {
             console.error(error)
@@ -37,11 +37,17 @@ export default class Wechat {
         console.log("fetchAccessToken",data)
 
         if (!this.isValidAccessToken(data)) {
-            return await this.updateAccessToken()
+            data = await this.updateAccessToken()
         }
 
-        await this.saveAccessToken(data)
-
+        try {
+            await this.saveAccessToken(data)
+            
+            console.log("保存token")
+        }catch(e) {
+            console.log("保存出错了")
+        }
+        
         return data
     }
 
@@ -56,8 +62,6 @@ export default class Wechat {
         const expiresIn = now + (data.expires_in - 20) * 1000
 
         data.expires_in = expiresIn
-
-        await this.saveAccessToken(data)
 
 
         return data
