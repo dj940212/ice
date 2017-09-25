@@ -51,11 +51,11 @@ export default function (opts, reply) {
             console.log(replyBody)
 
             const xml = `<xml>
-                        <ToUserName><![CDATA[toUser]]></ToUserName>
-                        <FromUserName><![CDATA[fromUser]]></FromUserName>
+                        <ToUserName><![CDATA[${content.xml.FromUserName[0]}]]></ToUserName>
+                        <FromUserName><![CDATA[${content.xml.ToUserName[0]}]]></FromUserName>
                         <CreateTime>12345678</CreateTime>
                         <MsgType><![CDATA[text]]></MsgType>
-                        <Content><![CDATA[你好]]></Content>
+                        <Content><![CDATA[${replyBody}]]></Content>
                         </xml>`
 
             ctx.status = 200
