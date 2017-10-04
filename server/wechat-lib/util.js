@@ -1,5 +1,5 @@
 import xml2js from 'xml2js'
-// import template from './tpl'
+import template from './tpl'
 import sha1 from 'sha1'
 
 export function parseXML(xml) {
@@ -11,7 +11,7 @@ export function parseXML(xml) {
   })
 }
 
-function formatMessage (result) {
+export function formatMessage (result) {
   let message = {}
 
   if (typeof result === 'object') {
@@ -44,4 +44,30 @@ function formatMessage (result) {
   }
 
   return message
+}
+
+export function tpl (content, message) {
+  let type = 'text'
+
+  if (Array.isArray(content)) {
+    type = 'news'
+  }
+
+  if (!content) {
+    content = 'Empty News'
+  }
+
+  if (content && content.type) {
+    type = content.type
+  }
+
+  let info = Object.assign({}, {
+    content: content,
+    createTime: new Date().getTime(),
+    msgType: type,
+    toUserName: message.FromUserName,
+    fromUserName: message.ToUserName
+  })
+
+  return template(info)
 }

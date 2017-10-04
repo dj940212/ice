@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "cross-env": "^5.0.1",
+    "ejs": "^2.5.7",
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
     "koa-router": "v7.2.1",

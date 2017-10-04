@@ -37,26 +37,30 @@ export default function (opts, reply) {
             })
 
             const content = await util.parseXML(data)
-            // const message = util.formatMessage(content.xml)
+            const message = util.formatMessage(content.xml)
 
-            console.log(content)
+            console.log("content:",content)
 
-            ctx.weixin = {} //message
+            ctx.weixin = message
 
             await reply.apply(ctx,[ctx, next])
 
+            console.log(ctx.body)
+            
             const replyBody = ctx.body
             const msg = ctx.weixin
-            // const xml = util.tpl(replyBody, msg)
-            console.log(replyBody)
+            const xml = util.tpl(replyBody, msg)
+            // console.log(replyBody)
 
-            const xml = `<xml>
-                        <ToUserName><![CDATA[${content.xml.FromUserName[0]}]]></ToUserName>
-                        <FromUserName><![CDATA[${content.xml.ToUserName[0]}]]></FromUserName>
-                        <CreateTime>12345678</CreateTime>
-                        <MsgType><![CDATA[text]]></MsgType>
-                        <Content><![CDATA[${replyBody}]]></Content>
-                        </xml>`
+            // const xml = `<xml>
+            //             <ToUserName><![CDATA[${content.xml.FromUserName[0]}]]></ToUserName>
+            //             <FromUserName><![CDATA[${content.xml.ToUserName[0]}]]></FromUserName>
+            //             <CreateTime>12345678</CreateTime>
+            //             <MsgType><![CDATA[text]]></MsgType>
+            //             <Content><![CDATA[${replyBody}]]></Content>
+            //             </xml>`
+
+            console.log(xml)
 
             ctx.status = 200
             ctx.type = 'application/xml'
