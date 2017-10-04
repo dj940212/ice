@@ -50,15 +50,6 @@ export default function (opts, reply) {
             const replyBody = ctx.body
             const msg = ctx.weixin
             const xml = util.tpl(replyBody, msg)
-            // console.log(replyBody)
-
-            // const xml = `<xml>
-            //             <ToUserName><![CDATA[${content.xml.FromUserName[0]}]]></ToUserName>
-            //             <FromUserName><![CDATA[${content.xml.ToUserName[0]}]]></FromUserName>
-            //             <CreateTime>12345678</CreateTime>
-            //             <MsgType><![CDATA[text]]></MsgType>
-            //             <Content><![CDATA[${replyBody}]]></Content>
-            //             </xml>`
 
             console.log(xml)
 
