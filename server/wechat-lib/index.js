@@ -157,7 +157,7 @@ export default class Wechat {
         const options = this[operation](tokenData.access_token, ...args)
         const data = await this.request(options)
 
-        // console.log('data:', data)
+        console.log('options:', options)
 
         return data
     }
@@ -391,23 +391,27 @@ export default class Wechat {
         return {url: url}
     }
 
+    // 创建菜单
     createMenu (token, menu) {
         const url = api.menu.create + 'access_token=' + token
 
         return {method: 'POST', url: url, body: menu}
-      }
+    }
 
+    // 获取菜单
     getMenu (token) {
         const url = api.menu.get + 'access_token=' + token
 
         return {url: url}
     }
 
+    // 删除菜单
     delMenu (token) {
         const url = api.menu.del + 'access_token=' + token
 
         return {url: url}
     }
+
 
     addConditionMenu (token, menu, rule) {
         const url = api.menu.addCondition + 'access_token=' + token
