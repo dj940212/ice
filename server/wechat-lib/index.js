@@ -24,6 +24,42 @@ const api = {
         count: base + 'material/get_materialcount?',
         batch: base + 'material/batchget_material?'
     },
+    // 标签
+    tag: {
+        create: base + 'tags/create?',
+        fetch: base + 'tags/get?',
+        update: base + 'tags/update?',
+        del: base + 'tags/delete?',
+        fetchUsers: base + 'user/tag/get?',
+        batchTag: base + 'tags/members/batchtagging?',
+        batchUnTag: base + 'tags/members/batchuntagging?',
+        getTagList: base + 'tags/getidlist?'
+    },
+
+    // 用户管理
+    user: {
+        remark: base + 'user/info/updateremark?',
+        info: base + 'user/info?',
+        batchInfo: base + 'user/info/batchget?',
+        fetchUserList: base + 'user/get?',
+        getBlackList: base + 'tags/members/getblacklist?',
+        batchBlackUsers: base + 'tags/members/batchblacklist?',
+        batchUnblackUsers: base + 'tags/members/batchunblacklist?'
+    },
+
+    // 菜单
+    menu: {
+        create: base + 'menu/create?',
+        get: base + 'menu/get?',
+        del: base + 'menu/delete?',
+        addCondition: base + 'menu/addconditional?',
+        delCondition: base + 'menu/delconditional?',
+        getInfo: base + 'get_current_selfmenu_info?'
+    },
+
+    ticket: {
+        get: base + 'ticket/getticket?'
+    }
 }
 
 function statFile (filepath) {
@@ -63,7 +99,7 @@ export default class Wechat {
     }
 
     // 获取签名
-    async fetchAccessToken() {
+    async fetchAccessToken () {
         let data = await this.getAccessToken()
 
         console.log("fetchAccessToken",data)
@@ -84,7 +120,7 @@ export default class Wechat {
     }
 
     // 更新签名
-    async updateAccessToken() {
+    async updateAccessToken () {
         const url = api.accessToken + '&appid=' + this.appID + '&secret=' + this.appSecret
 
         const data = await this.request({url: url})
@@ -101,7 +137,7 @@ export default class Wechat {
     }
 
     // 判断签名是否有效
-    isValidAccessToken(data) {
+    isValidAccessToken (data) {
         if (!data || !data.access_token || !data.expires_in) {
             return false
         }
@@ -229,7 +265,7 @@ export default class Wechat {
         return {method: 'POST', url: url}
     }
 
-    // 素材列表
+    // 素材列表             
     batchMaterial (token, options) {
         options.type = options.type || 'image'
         options.offset = options.offset || 0
@@ -240,6 +276,166 @@ export default class Wechat {
         return {method: 'POST', url: url, body: options}
     }
 
+    // 创建标签
+    createTag (token, name) {
+        const form = {
+          tag: {
+            name: name
+          }
+        }
+        const url = api.tag.create + 'access_token=' + token
 
+        return {method: 'POST', url: url, body: form}
+    }
+
+    // 获取标签
+    fetchTags (token) {
+        const url = api.tag.fetch + 'access_token=' + token
+
+        return {url: url}
+    }
+
+    // 编辑标签
+    updateTag (token, tagId, name) {
+        const form = {
+          tag: {
+            id: tagId,
+            name: name
+          }
+        }
+
+        const url = api.tag.update + 'access_token=' + token
+
+        return {method: 'POST', url: url, body: form}
+    }
+
+    // 删除标签
+    delTag (token, tagId) {
+        const form = {
+          tag: {
+            id: tagId
+          }
+        }
+
+        const url = api.tag.del + 'access_token=' + token
+
+        return {method: 'POST', url: url, body: form}
+    }
+
+    // 获取标签用户
+    fetchTagUsers (token, tagId, openId) {
+        const form = {
+          tagid: tagId,
+          next_openid: openId || ''
+        }
+        const url = api.tag.fetchUsers + 'access_token=' + token
+
+        return {method: 'POST', url: url, body: form}
+    }
+
+    // 批量为用户打标签
+    batchTag (token, openIdList, tagId, unTag) {
+        const form = {
+          openid_list: openIdList,
+          tagid: tagId
+        }
+        let url = api.tag.batchTag
+
+        if (unTag) {
+          url = api.tag.batchUnTag
+        }
+
+        url += 'access_token=' + token
+
+        return {method: 'POST', url: url, body: form}
+    }
+
+    // 标签列表
+    getTagList (token, openId) {
+        const form = {
+          openid: openId
+        }
+        const url = api.tag.getTagList + 'access_token=' + token
+
+        return {method: 'POST', url: url, body: form}
+    }
+
+    remarkUser (token, openId, remark) {
+        const form = {
+          openid: openId,
+          remark: remark
+        }
+        const url = api.user.remark + 'access_token=' + token
+
+        return {method: 'POST', url: url, body: form}
+    }
+
+    getUserInfo (token, openId, lang) {
+        const url = `${api.user.info}access_token=${token}&openid=${openId}&lang=${lang || 'zh_CN'}`
+
+        return {url: url}
+    }
+
+    batchUserInfo (token, userList) {
+        const url = api.user.batchInfo + 'access_token=' + token
+        const form = {
+          user_list: userList
+        }
+
+        return {method: 'POST', url: url, body: form}
+    }
+
+    fetchUserList (token, openId) {
+        const url = `${api.user.fetchUserList}access_token=${token}&next_openid=${openId || ''}`
+
+        return {url: url}
+    }
+
+    createMenu (token, menu) {
+        const url = api.menu.create + 'access_token=' + token
+
+        return {method: 'POST', url: url, body: menu}
+      }
+
+    getMenu (token) {
+        const url = api.menu.get + 'access_token=' + token
+
+        return {url: url}
+    }
+
+    delMenu (token) {
+        const url = api.menu.del + 'access_token=' + token
+
+        return {url: url}
+    }
+
+    addConditionMenu (token, menu, rule) {
+        const url = api.menu.addCondition + 'access_token=' + token
+        const form = {
+          button: menu,
+          matchrule: rule
+        }
+
+        return {method: 'POST', url: url, body: form}
+    }
+
+    delConditionMenu (token, menuId) {
+        const url = api.menu.delCondition + 'access_token=' + token
+        const form = {
+          menuid: menuId
+        }
+
+        return {method: 'POST', url: url, body: form}
+    }
+
+    getCurrentMenuInfo (token) {
+        const url = api.menu.getInfo + 'access_token=' + token
+
+        return {url: url}
+    }
+
+    sign (ticket, url) {
+        return sign(ticket, url)
+    }
 
 }
