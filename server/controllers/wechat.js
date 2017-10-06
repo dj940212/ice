@@ -8,7 +8,7 @@ export async function signature (ctx, next) {
 
   if (!url) ctx.throw(404)
 
-  // url = decodeURIComponent(url)
+  url = decodeURIComponent(url)
   let params = await wechat.getSignatureAsync(url)
 
   ctx.body = {
@@ -21,20 +21,23 @@ export async function signature (ctx, next) {
 // 用户被重定向到 Wechat Redirect URL 授权验证
 // 验证后，自动二跳进入 http://x.o/oauth?code=xxxxxx&state=a_b
 export async function redirect (ctx, next) {
-  let redirect = config.SITE_ROOT_URL + '/oauth'
+  let target = config.SITE_ROOT_URL + '/oauth'
   let scope = 'snsapi_userinfo'
-  const { visit, id } = ctx.query
-  const params = id ? `${visit}_${id}` : visit
+  const { a, b } = ctx.query
+  const params = `${a}_${b}`
 
-  const url = wechat.getAuthorizeURL(scope, redirect, params)
+  const url = wechat.getAuthorizeURL(scope, target, params)
 
   ctx.redirect(url)
 }
 
 export async function oauth (ctx, next) {
+
   const url = ctx.query.url
+  console.log("query",ctx.query)
   const urlObj = urlParse(decodeURIComponent(url))
   const params = queryParse(urlObj.query)
+  console.log('params',params)
   const code = params.code
   const user = await wechat.getUserByCode(code)
 
@@ -44,6 +47,6 @@ export async function oauth (ctx, next) {
   }
   ctx.body = {
     success: true,
-    user: user
+    data: user
   }
 }
