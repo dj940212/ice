@@ -3,6 +3,7 @@ import formstream from 'formstream'
 import fs from 'fs'
 import path from 'path'
 import * as _ from 'lodash'
+import {sign} from './util'
 
 const base = 'https://api.weixin.qq.com/cgi-bin/'
 const api = {
@@ -78,6 +79,8 @@ export default class Wechat {
         this.appSecret = opts.appSecret
         this.getAccessToken = opts.getAccessToken
         this.saveAccessToken = opts.saveAccessToken
+        this.getTicket = opts.getTicket
+        this.saveTicket = opts.saveTicket
 
         this.fetchAccessToken()
     }
@@ -104,18 +107,60 @@ export default class Wechat {
 
         console.log("fetchAccessToken",data)
 
-        if (!this.isValidAccessToken(data)) {
+        if (!this.isValidToken(data, 'access_token')) {
             data = await this.updateAccessToken()
         }
 
         try {
             await this.saveAccessToken(data)
             
-            console.log("保存token")
+            console.log("保存签名成功")
         }catch(e) {
             console.log("保存出错了")
         }
         
+        return data
+    }
+
+    // 获取票据
+    async fetchTicket (token) {
+        let data = await this.getTicket()
+
+        if (!this.isValidToken(data, 'ticket')) {
+            data = await this.updateTicket(token)
+        }
+
+        console.log("Ticket",data)
+
+        // console.log(this.saveTicket)
+
+        await this.saveTicket(data)
+        
+        try {
+            await this.saveTicket(data)
+            
+            console.log("保存票据成功")
+        }catch(e) {
+            console.log("保存出错了")
+        }
+
+        
+        
+        return data
+    }
+
+    // 更新票据
+    async updateTicket (token) {
+        const url = api.ticket.get + '&access_token=' + token + '&type=jsapi'
+
+        const data = await this.request({url: url})
+
+        const now = new Date().getTime()
+        const expiresIn = now + (data.expires_in - 20) * 1000
+
+        data.expires_in = expiresIn
+
+
         return data
     }
 
@@ -136,9 +181,9 @@ export default class Wechat {
         return data
     }
 
-    // 判断签名是否有效
-    isValidAccessToken (data) {
-        if (!data || !data.access_token || !data.expires_in) {
+    // 判断签名&票据是否有效
+    isValidToken (data, name) {
+        if (!data || !data[name] || !data.expires_in) {
             return false
         }
         const expiresIn = data.expires_in
@@ -411,7 +456,6 @@ export default class Wechat {
 
         return {url: url}
     }
-
 
     addConditionMenu (token, menu, rule) {
         const url = api.menu.addCondition + 'access_token=' + token

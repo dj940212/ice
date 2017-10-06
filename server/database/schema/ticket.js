@@ -6,11 +6,11 @@ const TicketSchema = new mongoose.Schema({
     ticket: String,
     expires_in: Number,
     meta: {
-        createdAt: {
+        createAt: {
             type: Date,
             default: Date.now()
         },
-        updatedAt: {
+        updateAt: {
             type: Date,
             default: Date.now()
         }
@@ -19,48 +19,49 @@ const TicketSchema = new mongoose.Schema({
 
 TicketSchema.pre('save', function (next) {
     if (this.isNew) {
-        this.meta.createdAt = this.meta.updatedAt = Date.now()
-    }else {
-        this.meta.updatedAt = Date.now()
+        this.meta.createAt = this.meta.updateAt = Date.now()
+    } else {
+        this.meta.updateAt = Date.now()
     }
 
     next()
 })
 
 TicketSchema.statics = {
-    async getAccessTicket() {
-        const ticket = await this.findOne({
-            name: 'ticket'
-        }).exec()
+  async getTicket () {
+    const ticket = await this.findOne({ name: 'ticket' }).exec()
 
-        if (ticket && ticket.ticket) {
-            ticket.ticket = ticket.ticket
-        }
+    console.log('getTicket...')
+    return ticket
+  },
 
-        return ticket
-    },
+  async saveTicket (data) {
+    let ticket = await this.findOne({ name: 'ticket' }).exec()
+    if (ticket) {
+      ticket.ticket = data.ticket
+      ticket.expires_in = data.expires_in
+    } else {
+        console.log("saveTicket...")
 
-    async saveAccessTicket(data) {
-        console.log("saveAccessticket")
-        let ticket = await this.findOne({
-            name: 'ticket'
-        }).exec()
-
-        if (ticket) {
-            ticket.ticket = ticket
-            ticket.expires_in = data.expires_in
-        }else {
-            ticket = new ticket({
-                name: 'ticket',
-                ticket: data.ticket,
-                expires_in: data.expires_in
-            })
-        }
-
-        await ticket.save()
-
-        return data
+        ticket = new Ticket({
+            name: 'ticket',
+            expires_in: data.expires_in,
+            ticket: data.ticket
+        })
     }
+
+    
+    try {
+      await ticket.save()
+    } catch (e) {
+      console.log('存储失败')
+      console.log(e)
+    }
+
+    return data
+  }
 }
 
-export default mongoose.model('ticket', TicketSchema)
+const Ticket = mongoose.model('Ticket', TicketSchema)
+
+export default Ticket
