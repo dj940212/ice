@@ -19,9 +19,12 @@ module.exports = {
   /*
   ** Global CSS
   */
-  css: ['~static/css/main.css'],
-  /*
-  ** Customize the progress-bar color
-  */
+  css: [{
+    src: 'static/sass/base.sass',
+    lang: 'sass?indentedSyntax=true'
+  }],
+  
+  // ** Customize the progress-bar color
+  
   loading: { color: '#3B8070' }
 }

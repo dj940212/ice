@@ -5,8 +5,6 @@ import WechatOAuth from '../wechat-lib/oauth'
 import Token from '../database/schema/token'
 import Ticket from '../database/schema/ticket'
 
-console.log("TicketSchema",Ticket, Token)
-
 const wechatConfig = {
     wechat: {
         appID: config.wechat.appID,
