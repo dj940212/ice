@@ -37,5 +37,17 @@ export default {
 		console.log("cities", res.data.data)
 
 		return res
+	},
+
+	async fetchHouse({ state }, _id) {
+		if (_id === state.currentHouse._id) return
+
+		const res = await Services.fetchHouse(_id)
+
+		state.currentHouse = res.data.data
+
+		console.log("currentHouse",res)
+
+		return res
 	}
 }

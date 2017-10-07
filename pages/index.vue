@@ -1,7 +1,7 @@
 <template lang="pug">
 .container
     .house(ref='house')
-        .house-content(v-for='(item, index) in houses' :key='index' @click='focusHouse(item)')
+        .house-content(v-for='(item, index) in houses' :key='index' @click='showHouse(item)')
             .house-text
                 .words {{ item.words }}
                 .cname {{ item.name }}
@@ -44,10 +44,10 @@ export default {
         ])
     },
 
-    mothods: {
+    methods: {
         showHouse (item) {
             this.$router.push({
-                path: '/character',
+                path: '/house',
                 query: {
                     id: item._id
                 }
