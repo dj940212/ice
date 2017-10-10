@@ -25,3 +25,8 @@ using a prerelease version of Node (i.e. v7.6.0-rc.1) you will need to either:
   2. Run `yarn` with a standard release of Node and then switch back
 
 For detailed explanation on how things work, checkout the [Nuxt.js docs](https://github.com/nuxt/nuxt.js).
+
+
+http://zh.asoiaf.wikia.com/api/v1/Search/List?query=Tywin%20Lannister
+
+http://zh.asoiaf.wikia.com/api/v1/Articles/AsSimpleJson?id=244
