@@ -6,6 +6,7 @@ import { resolve } from 'path'
 
 const sleep = time => new Promise(resolve => setTimeout(resolve, time))
 
+// 获取wiki词条id
 const getWikiId = async data => {
   const query = data.name || data.cname
   const url = `http://zh.asoiaf.wikia.com/api/v1/Search/List?query=${encodeURI(query)}`
@@ -25,6 +26,7 @@ const getWikiId = async data => {
   return R.merge(data, res)
 }
 
+// 获取词条详细内容
 const getWikiDetail = async data => {
   const { id } = data
   const url = `http://zh.asoiaf.wikia.com/api/v1/Articles/AsSimpleJson?id=${id}`

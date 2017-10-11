@@ -66,11 +66,6 @@ export const getIMDBCharacters = async () => {
 const fetchIMDbProfile = async (url) => {
     const options = {
         uri: url,
-        // agentClass: Agent,
-        // agentOptions: {
-        //     socksHost: 'localhost',
-        //     socksPort: 50862
-        // },
         transform: body => cheerio.load(body)
     }
 
@@ -120,6 +115,7 @@ const checkIMDbProfile = () => {
            newCharacters.push(item)
         }
     })
+    console.log(newCharacters.length)
     writeFileSync('./validCharacters.json', JSON.stringify(newCharacters, null, 2), 'utf8')
 }
 
@@ -153,9 +149,9 @@ export const getIMDbImages = async (url) => {
     console.log(characters.length)
     for (let i = 0; i < characters.length; i++) {
         if (!characters[i].images) {
-            const url = `http://www.imdb.com/character/${characters[i].chId}/`
+            const url = `http://www.imdb.com/character/${characters[i].chId}/mediaindex`
             console.log('正在爬取 '+characters[i].name)
-            const src = await fetchIMDbImages(url)
+            const images = await fetchIMDbImages(url)
             console.log('已经爬到 '+ images.length)
             
             characters[i].images = images
@@ -172,4 +168,4 @@ export const getIMDbImages = async (url) => {
 
 
 
-getIMDbProfile()
+getIMDbImages()
