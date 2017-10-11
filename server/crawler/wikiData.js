@@ -111,6 +111,7 @@ export const getWikiCharacters = async () => {
   writeFileSync('./finalCharacters.json', JSON.stringify(data, null, 2), 'utf8')
 }
 
+// 头像剧照上传至七牛
 export const fetchImageFromIMDb = async () => {
   let IMDbCharacters = require(resolve(__dirname, '../../finalCharacters.json'))
   IMDbCharacters = [IMDbCharacters[0]]
