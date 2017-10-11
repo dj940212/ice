@@ -4,6 +4,9 @@ import { writeFileSync } from 'fs'
 import Promise from 'bluebird'
 import R from 'ramda'
 import { resolve } from 'path'
+import {fetchImage} from '../libs/qiniu'
+import randomToken from 'random-token'
+import config from '../config'
 
 const sleep = time => new Promise(resolve => setTimeout(resolve, time))
 
@@ -92,6 +95,7 @@ const getWikiDetail = async data => {
   return R.pick(['name', 'cname', 'playedBy', 'profile', 'images', 'nmId', 'chId', 'sections', 'intro', 'wikiId', 'words'], _res)
 }
 
+// 获取wiki中文信息
 export const getWikiCharacters = async () => {
   let data = require(resolve(__dirname, '../../fullCharacters.json'))
 
@@ -107,4 +111,41 @@ export const getWikiCharacters = async () => {
   writeFileSync('./finalCharacters.json', JSON.stringify(data, null, 2), 'utf8')
 }
 
-getWikiCharacters()
+export const fetchImageFromIMDb = async () => {
+  let IMDbCharacters = require(resolve(__dirname, '../../finalCharacters.json'))
+  IMDbCharacters = [IMDbCharacters[0]]
+
+  IMDbCharacters = R.map(async item => {
+    try {
+      let key = `${item.nmId}/${randomToken(32)}`
+      await fetchImage(item.profile, key)
+      console.log(key, item.profile)
+      console.log('upload done!')
+      item.profile = key
+
+      for (var i = 0; i < item.images.length; i++) {
+        let _key = `${item.nmId}/${randomToken(32)}`
+
+        await fetchImage(item.images[i], _key)
+
+        console.log(_key,item.images[i])
+
+        await sleep(100)
+
+        item.images[i] ="http://image.dingjian.name/"+_key
+      }
+
+    } catch (e) {
+      console.log(e)
+    }
+
+    return item
+  })(IMDbCharacters)
+
+  IMDbCharacters = await Promise.all(IMDbCharacters)
+  console.log('fetchImagesFromA2Q done')
+  writeFileSync('./completeCharacters.json', JSON.stringify(IMDbCharacters, null, 2), 'utf8')
+}
+
+
+fetchImageFromIMDb()
