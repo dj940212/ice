@@ -13,6 +13,7 @@ require('babel-core/register')({
                 {
                     src: r('./server'), 'expose': '~',
                     src: r('./server/database'), 'expose': 'database',
+                    src: r('./server/database/schema'), 'expose': 'schema'
                 }
             ]
         ]
