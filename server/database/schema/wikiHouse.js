@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const { Schema } = mongoose
 const Mixed = Schema.Types.Mixed
 
-const HouseSchema = new Schema({
+const WikiHouseSchema = new Schema({
   name: String,
   cname: String,
   words: String,
@@ -18,4 +18,5 @@ const HouseSchema = new Schema({
   ]
 })
 
-mongoose.model('WikiHouse', HouseSchema)
+const House = mongoose.model('WikiHouse', WikiHouseSchema)
+export default House

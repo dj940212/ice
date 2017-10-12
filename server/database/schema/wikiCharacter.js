@@ -8,19 +8,14 @@ const WikiCharacterSchema = new Schema({
   cname: String,
   playedBy: String,
   profile: String,
-  allegiances: [
-    String
-  ],
-  images: [
-    String
-  ],
+  allegiances: [String ],
+  images: [String ],
   nmId: String,
   chId: String,
   sections: Mixed,
-  intro: [
-    String
-  ],
+  intro: [String ],
   wikiId: Number
 })
 
-mongoose.model('WikiCharacter', WikiCharacterSchema)
+const WikiCharacter = mongoose.model('WikiCharacter', WikiCharacterSchema)
+export default WikiCharacter
