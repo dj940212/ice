@@ -3,8 +3,8 @@ import config from '../config'
 import fs from 'fs'
 import { resolve } from 'path'
 import R from 'ramda'
-import WikiHouse from '../database/schema/wikiHouse'
-import WikiCharacter from '../database/schema/wikiCharacter'
+import WikiHouse from 'schema/wikiHouse'
+import WikiCharacter from 'schema/wikiCharacter'
 
 const models = resolve(__dirname, '../database/schema')
 
@@ -18,8 +18,8 @@ const formatData = R.map(i => {
     return i
 })
 
-let wikiCharacters = require(resolve(__dirname, '../database/wikiCharacters.json'))
-let wikiHouses = require(resolve(__dirname, '../database/wikiHouses.json'))
+let wikiCharacters = require(resolve(__dirname, '../database/completeCharacters.json'))
+let wikiHouses = require(resolve(__dirname, '../database/completeHouses.json'))
 
 export default app => {
     mongoose.set('debug', true)

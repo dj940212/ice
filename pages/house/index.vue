@@ -1,26 +1,25 @@
 <template lang="pug">
 .container
-    .focushouse-media
-        img(:src='house.profile' v-if='house.cname'  )
-        .focusHouse-text
-            .words {{ house.words }}
-            .name {{ house.name }}
+  .house-media
+    img(v-if='house.cname' :src='imageCDN + house.cname + ".png"')
+    .desc
+      .words {{house.words}}
+      .name {{house.name}}
 
-    .focusHouse-body
-        .focusHouse-item-title {{ house.cname }}
-        .focusHouse-item-body {{ house.intro }}
+  .house-body
+    .title {{house.cname}}
+    .body {{house.intro}}
+    .title 主要角色
+    .body(v-for='(item, index) in house.swornMembers' :key='index')
+      .members(v-if='item.character')
+        img(:src='imageCDN + item.character.profile + "?imageView2/1/w/280/h/440/format/jpg/q/75|imageslim"' @click='showCharacter(item)')
+        .desc
+          .cname {{item.character.cname}}
+          .intro {{item.text}}
 
-        .focusHouse-item-title 主要角色
-        .focusHouse-item-body(v-for='(item, index) in house.swornMembers' :key='index')
-            .swornMembers
-                img(:src="item.profile")
-                .swornMembers-body
-                    .name {{item.cname}}
-                    .introduction {{item.text}}
-
-        .focusHouse-item-section(v-for='(item, index) in house.sections' :key='index')
-            .focusHouse-item-title {{ item.title }}
-            .focusHouse-item-body(v-for='text in item.content') {{ text }}
+    .house-history(v-for='(item, index) in house.sections' :key='index')
+      .title {{item.title}}
+      .content(v-for='text in item.content') {{text}}
 </template>
 
 <script>
@@ -32,16 +31,31 @@ export default {
       title: '家族详情'
     }
   },
+
   computed: {
     ...mapState({
-      house: 'currentHouse'
+      house: 'currentHouse',
+      imageCDN: 'imageCDN'
     })
   },
+
   beforeCreate () {
     let id = this.$route.query.id
-    this.$store.dispatch('fetchHouse', id)
+
+    this.$store.dispatch('showHouse', id)
+  },
+
+  methods: {
+    showCharacter (item) {
+      this.$router.push({
+        path: '/character',
+        query: {
+          id: item._id
+        }
+      })
+    }
   }
 }
 </script>
 
-<style scoped lang="sass" src='../../static/sass/house.sass'></style>
+<style scoped lang='sass' src='../../static/sass/house.sass'></style>

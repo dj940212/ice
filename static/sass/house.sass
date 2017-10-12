@@ -3,8 +3,8 @@
 @import '~static/sass/var'
 
 .container
-
-  .focusHouse-media
+  .house-media
+    +font-dpr(25px)
     overflow: hidden
     position: relative
     font-size: 0
@@ -12,39 +12,51 @@
     img
       width: 100%
     
-    .focusHouse-text
+    .desc
       width: 100%
       +border-box
       padding: 0 $spacing
       text-align: left
       position: absolute
-      bottom: 5%
+      bottom: 0
       left: 0
       color: $white
       +font-dpr(10px)
       line-height: .7rem
 
       .words
-        font-size: 1.6em
+        font-size: 1.4em
         
       .name
-        font-size: 2.2em
+        font-size: 2em
 
-  .focusHouse-body
+
+  .house-body
     padding: $spacing
     +border-box
 
-    .focusHouse-item-section
+    .house-history
       > *
         width: 100%
         margin-top: $spacing
+
+      .title 
+        +font-dpr(25px)
+        padding-bottom: $spacing/3
+        border-bottom: 1px solid $grey-700
+
+      .body
+        +font-dpr(17px)
+        margin: $spacing 0
+        text-indent: 2em
+        color: $grey-600
      
-    .focusHouse-item-title 
+    .title 
       +font-dpr(25px)
       padding-bottom: $spacing/3
       border-bottom: 1px solid $grey-700
 
-    .focusHouse-item-body
+    .body
       +font-dpr(17px)
       margin: $spacing 0
       text-indent: 2em
@@ -53,7 +65,7 @@
       > p
         margin: 5px 0
 
-      .swornMembers
+      .members
         font-size: 0
         text-indent: 0
 
@@ -64,16 +76,15 @@
         img
           width: 30%
         
-        .swornMembers-body
+        .desc
           width: 65%
           padding-left: 5%
           +font-dpr(10px)
 
-          .name
+          .cname
             font-size: 1.7em
             color: $black
             margin-bottom: $spacing
 
-          .introduction
+          .intro
             font-size: 1.4em
-            line-height: $spacing
