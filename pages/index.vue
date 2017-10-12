@@ -31,7 +31,7 @@
 import { mapState } from 'vuex'
 
 export default {
-  middleware: 'wechat-auth',
+  // middleware: 'wechat-auth',
 
   head () {
     return {
