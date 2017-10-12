@@ -26,6 +26,7 @@ export default {
 
 	    state.currentHouse = res.data.data
 
+	    console.log('currentHouse', res.data.data)
 	    return res
 	 },
 
