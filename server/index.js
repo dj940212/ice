@@ -1,7 +1,7 @@
 import Koa from 'koa'
 import bodyParser from 'koa-bodyparser'
 import { Nuxt, Builder } from 'nuxt'
-import Router from './middlewares/router'
+import { Router} from './middlewares/router'
 import Database from './middlewares/database'
 
 const app = new Koa()
