@@ -21,6 +21,10 @@ class Services {
 		return axios.get(`${baseUrl}/wiki/characters`)
 	}
 
+	fetchCharacter(id) {
+		return axios.get(`${baseUrl}/wiki/characters/${id}`)
+	}
+
 	fetchHouse(id) {
 		return axios.get(`${baseUrl}/wiki/houses/${id}`)
 	}

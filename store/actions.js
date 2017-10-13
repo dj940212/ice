@@ -40,17 +40,16 @@ export default {
 		return res
 	},
 
-	async fetchHouse({ state }, _id) {
-		if (_id === state.currentHouse._id) return
+	async showCharacter ({ state }, _id) {
+		console.log("12312423")
+	    if (_id === state.currentCharacter._id) return
 
-		const res = await Services.fetchHouse(_id)
+	    const res = await Services.fetchCharacter(_id)
 
-		state.currentHouse = res.data.data
+	    console.log("currentCharacter",res.data)
+	    state.currentCharacter = res.data.data
 
-		console.log("currentHouse",res)
-
-		return res
+	    return res
 	},
-
 
 }
