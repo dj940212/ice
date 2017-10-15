@@ -68,7 +68,7 @@ export class ProductController {
   }
 
   @put('/products')
-  async getCharacter (ctx, next) {
+  async putProducts (ctx, next) {
     let body = ctx.request.body
     const { _id } = body
 
@@ -139,6 +139,7 @@ export class ProductController {
     }
   }
 
+  // 获取qiniuToken
   @get('qiniu/token')
   async qiniuToken (ctx, next) {
     let key = ctx.query.key

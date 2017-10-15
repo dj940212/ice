@@ -14,7 +14,7 @@
         tr(v-for='item in products')
           td
             .img(v-for='image in item.images')
-              img(:src='imageCDN + image + "?imageView2/1/format/jpg/q/75/imageslim"')
+              img(:src='myImageCDN + image + "?imageView2/1/format/jpg/q/75/imageslim"')
           td {{item.title}}
           td {{item.price}}
           td(v-html='item.intro')
@@ -45,7 +45,7 @@
           label 图片
           .upload-images
             .img(v-for='item, index in edited.images')
-              img(:src='imageCDN + item + "?imageView2/1/format/jpg/q/75/imageslim"')
+              img(:src='myImageCDN + item + "?imageView2/1/format/jpg/q/75/imageslim"')
               .tools
                 .material-icon(@click='deleteImg(index)') delete
             .upload-btn
@@ -115,6 +115,7 @@ export default {
   },
 
   computed: mapState([
+    'myImageCDN',
     'imageCDN',
     'products'
   ]),
@@ -170,7 +171,7 @@ export default {
     removeParameter (index) {
       this.edited.parameters.splice(index, 1)
     },
-
+    // 获取Token
     async getUptoken (key) {
       let res = await axios.get('/qiniu/token', {
         params: {
@@ -178,9 +179,10 @@ export default {
         }
       })
 
+      console.log("token",res.data.data.token)
       return res.data.data.token
     },
-
+    // 上传图片到七牛
     async uploadImg (e) {
       let file = e.target.files[0]
       let key = randomToken(32)
@@ -193,7 +195,7 @@ export default {
         key: Buffer.from(key).toString('base64')
       }
 
-      // Uploader.QINIU_UPLOAD_URL = '//up-z2.qiniu.com'
+      Uploader.QINIU_UPLOAD_URL = '//up-z2.qiniu.com/'
 
       let uploader = new Uploader(file, uptoken) 
 

@@ -2,10 +2,14 @@ import qiniu from 'qiniu'
 import config from '../config'
 import {exec} from 'shelljs'
 
-// qiniu.conf.ACCESS_KEY = config.qiniu.AK
-// qiniu.conf.SECRET_KEY = config.qiniu.SK
+qiniu.conf.ACCESS_KEY = config.qiniu.AK
+qiniu.conf.SECRET_KEY = config.qiniu.SK
 
 const bucket = 'image-hosting'
+
+export const uptoken = (key) => {
+  return new qiniu.rs.PutPolicy(`${bucket}:${key}`).token()
+}
 
 export const fetchImage = async (url, key) => {
     // const client = new qiniu.rs.Client()

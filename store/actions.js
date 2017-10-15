@@ -1,4 +1,5 @@
 import Services from './services'
+import axios from 'axios'
 
 export default {
 	getWechatSignature({ commit }, url) {
@@ -57,6 +58,7 @@ export default {
     const res = await Services.fetchProducts()
 
     state.products = res.data.data
+    console.log(res.data.data)
 
     return res
   },

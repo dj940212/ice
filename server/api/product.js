@@ -43,8 +43,6 @@ export async function update (product) {
 }
 
 export async function del (product) {
-  console.log(product)
-  console.log('product')
   try {
     await product.remove()
   } catch (e) {
