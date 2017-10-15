@@ -2,6 +2,18 @@ import Services from './services'
 import axios from 'axios'
 
 export default {
+	nuxtServerInit ({ commit }, { req }) {
+    if (req.session && req.session.user) {
+      const { email, nickname, avatarUrl } = req.session.user
+      const user = {
+        email,
+        nickname,
+        avatarUrl
+      }
+
+      commit('SET_USER', user)
+    }
+  },
 	getWechatSignature({ commit }, url) {
 		return Services.getWechatSignature(url)
 	},
@@ -52,6 +64,31 @@ export default {
 
 	    return res
 	},
+	// 登陆
+	async login ({ commit }, { email, password }) {
+    try {
+      let res = await axios.post('/admin/login', {
+        email,
+        password
+      })
+
+      const { data } = res
+      
+      if (data.success) commit('SET_USER', data.data)
+
+      return data
+    } catch (e) {
+      if (e.response.status === 401) {
+        throw new Error('来错地方了')
+      }
+    }
+  },
+ 	// 登出
+  async logout ({ commit }) {
+    await axios.post('/admin/logout')
+
+    commit('SET_USER', null)
+  },
 
 	// 获取商品列表
   async fetchProducts ({ state }) {

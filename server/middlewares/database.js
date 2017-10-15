@@ -43,5 +43,17 @@ export default app => {
         // 插入爬虫数据
         if (!existWikiHouse.length) WikiHouse.insertMany(wikiHouses)
         if (!existWikiCharacter.length) WikiCharacter.insertMany(wikiCharacters)
+
+        const User = mongoose.model('User')
+        let user = await User.findOne({email: '2902273280'}).exec()
+
+        if (!user) {
+            new User({
+                email: '2902273280',
+                password: '2902273280',
+                role: 'admin'
+            }).save()
+            console.log("写入管理员数据")
+        }
     })
 }

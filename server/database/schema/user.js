@@ -112,7 +112,7 @@ UserSchema.methods = {
         if (that.loginAttempts + 1 >= MAX_LOGIN_ATTEMPTS && !that.isLocked) {
           updates.$set = {
             lockUntil: Date.now() + LOCK_TIME
-          }
+          } 
         }
 
         that.update(updates, err => {
