@@ -52,4 +52,49 @@ export default {
 	    return res
 	},
 
+	// 获取商品列表
+  async fetchProducts ({ state }) {
+    const res = await Services.fetchProducts()
+
+    state.products = res.data.data
+
+    return res
+  },
+
+  // 获取商品
+  async showProduct ({ state }, _id) {
+    if (_id === state.currentProduct._id) return
+
+    const res = await Services.fetchProduct(_id)
+    console.log(res.data)
+    state.currentProduct = res.data.data
+
+    return res
+  },
+
+  // 保存商品
+  async saveProduct ({ state, dispatch }, product) {
+    await axios.post('/api/products', product)
+
+    let res = await dispatch('fetchProducts')
+
+    return res.data.data
+  },
+
+  // 修改商品
+  async putProduct ({ state, dispatch }, product) {
+    await axios.put('/api/products', product)
+    let res = await dispatch('fetchProducts')
+
+    return res.data.data
+  },
+
+  // 删除商品
+  async deleteProduct ({ state, dispatch }, product) {
+    await axios.delete(`/api/products/${product._id}`)
+    let res = await dispatch('fetchProducts')
+
+    return res.data.data
+  },
+
 }

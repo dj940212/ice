@@ -9,13 +9,14 @@ import WikiCharacter from 'schema/wikiCharacter'
 const models = resolve(__dirname, '../database/schema')
 
 fs.readdirSync(models)
-  .filter(file => ~file.search(/^[^\.].*\.js$/))
+  .filter(file => ~file.search(/^[^\.].*js$/))
   .forEach(file => require(resolve(models, file)))
 
+// 替换成nmId
 const formatData = R.map(i => {
-    i._id = i.nmId
+  i._id = i.nmId
 
-    return i
+  return i
 })
 
 let wikiCharacters = require(resolve(__dirname, '../database/completeCharacters.json'))

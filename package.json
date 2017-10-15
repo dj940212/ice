@@ -28,6 +28,7 @@
     "nuxt": "^1.0.0-rc3",
     "pug": "^2.0.0-rc.4",
     "qiniu": "^7.0.8",
+    "qiniu-web-uploader": "^2.1.2",
     "ramda": "^0.24.1",
     "random-token": "^0.0.8",
     "raw-body": "^2.3.2",
@@ -39,7 +40,8 @@
     "socks5-http-client": "^1.0.2",
     "source-map-support": "^0.4.15",
     "vuex": "^2.4.1",
-    "xml2js": "^0.4.19"
+    "xml2js": "^0.4.19",
+    "xss": "^0.3.4"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",

@@ -29,6 +29,14 @@ class Services {
 		return axios.get(`${baseUrl}/wiki/houses/${id}`)
 	}
 
+	fetchProducts () {
+    return axios.get(`${baseUrl}/api/products`)
+  }
+
+  fetchProduct (id) {
+    return axios.get(`${baseUrl}/api/products/${id}`)
+  }
+
 
 }
 
