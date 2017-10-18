@@ -4,6 +4,7 @@ import * as util from './util'
 
 export default function (opts, reply) {
     return async function wachatMiddle(ctx, next) {
+        console.log("opts", opts, ctx.query)
         const token = opts.token
         const {
             signature,

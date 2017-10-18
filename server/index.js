@@ -3,6 +3,7 @@ import bodyParser from 'koa-bodyparser'
 import { Nuxt, Builder } from 'nuxt'
 import { Router} from './middlewares/router'
 import Database from './middlewares/database'
+import logger from 'koa-logger'
 import { addSession, addBody } from './middlewares/common'
 
 const app = new Koa()
@@ -28,6 +29,7 @@ if (config.dev) {
 addBody(app)
 Database(app)
 addSession(app)
+app.use(logger())
 Router(app)
 
 app.use(ctx => {
